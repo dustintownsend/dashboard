@@ -56,23 +56,23 @@ const FunctionList = (props) => {
                   )
                 }
                 return (
-                  <li key={`event-prop-${n}`}>
+                  <div key={`event-prop-${n}`}>
                     <span className={styles.property}>
-                      {property}:
+                      {`${property}: `}
                     </span>
                     {renderValue}
-                  </li>
+                  </div>
                 )
               }
               return null
             })
           }
           return (
-            <div key={`event-value-${j}`} className={styles.eventDisplay}>
+            <div key={`event-value-${j}`} className={styles.event}>
               <div>
-                Event - {eventType}
+                {`event: ${eventType}`}
               </div>
-              <div className={styles.eventProperties}>
+              <div className={styles.properties}>
                 {eventValues}
               </div>
             </div>
@@ -80,16 +80,16 @@ const FunctionList = (props) => {
         })
 
         return (
-          <div key={`event-${i}`}>
+          <div key={`event-${i}`} className={styles.events}>
             {eventDisplay}
           </div>
         )
       })
     }
     return (
-      <Card key={functionName} className={styles.functionCard}>
-        <div className={styles.functionInfo}>
-          <div className={styles.functionName}>
+      <div key={functionName} className={styles.function}>
+        <div className={styles.info}>
+          <div className={styles.title}>
             <span to={`/service/${service.id}/function/${functionName}`}>
               <ServiceValue
                 service={service}
@@ -99,7 +99,7 @@ const FunctionList = (props) => {
             </span>
           </div>
 
-          <div>{functionEvents}</div>
+          {functionEvents}
         </div>
         <div className={styles.functionActions}>
           <Button
@@ -127,7 +127,7 @@ const FunctionList = (props) => {
             Open in Editor
           </Button>
         </div>
-      </Card>
+      </div>
     )
   })
 
