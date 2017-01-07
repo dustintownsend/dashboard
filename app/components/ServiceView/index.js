@@ -206,34 +206,32 @@ export default class ServiceView extends Component {
           </div>
         </div>
         <div className={styles.contents}>
-          <div className={styles.contentsLeft}>
-            <div className={styles.serviceMeta}>
-              <div>Provider: {service.config.provider.name}</div>
-              <div>Runtime: {service.config.provider.runtime}</div>
-              <div>
-                <button onClick={() => shell.showItemInFolder(service.projectPath)}>
-                  open directory
-                </button>
-              </div>
+          <div className={styles.serviceMeta}>
+            <div>Provider: {service.config.provider.name}</div>
+            <div>Runtime: {service.config.provider.runtime}</div>
+            <div>
+              <button onClick={() => shell.showItemInFolder(service.projectPath)}>
+                open directory
+              </button>
             </div>
-            <div className={styles.serviceInfo}>
-              <div className={styles.functionSection}>
-                <h3 className={styles.functionHeading}>
-                  Functions:
-                </h3>
-                <FunctionList
-                  service={service}
-                  runFunctionDeploy={props.runFunctionDeploy}
-                  runInvoke={props.runInvoke}
-                  showInvokeModal={this.showInvokeModal}
-                  runLogs={props.runLogs}
-                />
-              </div>
+          </div>
+          <div className={styles.serviceInfo}>
+            <div className={styles.functionSection}>
+              {/*<h3 className={styles.functionHeading}>
+                Functions:
+              </h3>*/}
+              <FunctionList
+                service={service}
+                runFunctionDeploy={props.runFunctionDeploy}
+                runInvoke={props.runInvoke}
+                showInvokeModal={this.showInvokeModal}
+                runLogs={props.runLogs}
+              />
+            </div>
 
-              <div className={styles.resources}>
-                <Resources resources={service.config.resources} />
-              </div>
-            </div>
+            {/*<div className={styles.resources}>
+              <Resources resources={service.config.resources} />
+            </div>*/}
           </div>
 
           <div className={styles.contentsRight}>
