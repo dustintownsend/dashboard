@@ -18,9 +18,10 @@
   // padding-bottom: 10px;
   display: flex;
   // cursor: pointer;
-  justify-content: space-between;
+  // justify-content: space-between;
   // padding-top: $padding;
-  padding-right: calc($padding * 2);
+  // padding-right: calc($padding * 2);
+  padding-right: $padding;
   // padding-bottom: $padding;
   padding-left: calc($padding * 2);
   // padding: calc($padding * 2);
@@ -30,7 +31,7 @@
   }
 }
 .info {
-
+  flex-grow: 1;
 }
 .title {
   // line-height: 1;
@@ -38,15 +39,53 @@
   // margin-bottom: $tile_xs;
   margin: $tile_xs 0;
 }
-.functionActions {
+.actions {
   display: flex;
-  flex-direction: column;
-  button {
-    margin-bottom: 10px;
+}
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: $tile;
+  // height: calc($tile + ($padding * 2));
+  // height: $tile;
+  height: calc($tile + ($tile_xs * 2));
+  // padding: $padding 0;
+  padding: $tile_xs 0;
+  &:hover,
+  &:active {
+    path {
+      // stroke: #0074c2 !important;
+      // fill: #0074c2 !important;
+      transition: box-shadow 250ms 0ms;
+    }
+    .stroke {
+      stroke: #0074c2 !important;
+    }
+    .fill {
+      fill: #0074c2 !important;
+    }
+    .icon {
+      box-shadow:
+        0  1px #0074c2 inset,
+        0 -1px #0074c2 inset,
+        1px  0 #0074c2 inset,
+        -1px 0 #0074c2 inset;
+      transition: box-shadow 250ms 0ms;
+    }
   }
-  button:last-of-type {
-    margin-bottom: 0px;
+  path {
+    transition: box-shadow 500ms 0ms;
   }
+}
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: $padding;
+  height: $padding;
+  border-radius: 4rem;
+  transition: box-shadow 500ms 0ms;
 }
 .events {
 
@@ -64,4 +103,126 @@
 .property {
   // font-weight: bold;
   // margin-right: 5px;
+}
+
+.adaptive {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  margin-bottom: 1em;
+  input {
+    order: 2;
+    padding: 1.25rem 0 1.25rem 1.25rem;
+    height: $tile;
+    border: none;
+    box-shadow:
+      0  1px #eee  inset,
+      0 -1px #eee  inset,
+      1px  0 #eee  inset,
+      -1px 0 #eee  inset;
+    &:focus,
+    &:valid {
+      + label {
+        transform: translate(-12.5%, -50%) scale(.75);
+        transition-duration: 100ms;
+        &:before {
+          background-size: 100% 5px;
+          transition-duration: 250ms;
+        }
+      }
+    }
+    &:invalid {
+      + label {
+        &[data-placeholder] {
+          &:before {
+            content: attr(data-placeholder);
+          }
+        }
+      }
+    }
+    &:focus {
+      box-shadow:
+        0  1px blue  inset,
+        0 -1px blue  inset,
+        1px  0 blue  inset,
+        -1px 0 blue  inset;
+      + label {
+        &:before {
+          color: blue;
+        }
+        &[data-focus] {
+          &:before {
+            content: attr(data-focus);
+          }
+        }
+      }
+    }
+    &:focus {
+      &:valid {
+        + label {
+          &[data-typing] {
+            &:before {
+              content: attr(data-typing);
+            }
+          }
+        }
+      }
+    }
+    &:focus {
+      &:valid {
+        &[data-warning] {
+          box-shadow:
+            0  1px red inset,
+            0 -1px red inset,
+            1px  0 red inset,
+            -1px 0 red inset;
+        }
+        + label {
+          &[data-warning] {
+            &:before {
+              color: red;
+              content: attr(data-warning);
+            }
+          }
+        }
+      }
+    }
+    &:valid {
+      &:not(:focus) {
+        + label {
+          &[data-forgot] {
+            &:before {
+              content: attr(data-forgot);
+            }
+          }
+        }
+      }
+    }
+  }
+  label {
+    position: absolute;
+    order: 1;
+    top: 0;
+    left: 0;
+    max-width: 100%;
+    padding: 1.25rem;
+    overflow: hidden;
+    white-space: nowrap;
+    user-select: none;
+    pointer-events: none;
+    transition: 375ms;
+    &:before {
+      display: flex;
+      content: attr(data-label);
+      color: #ccc;
+      padding: 0 3px;
+      transition: 375ms;
+      background-image: linear-gradient(to bottom, #fff, #fff);
+      background-size: 100% 0;
+      background-repeat: no-repeat;
+      background-position: center;
+      user-select: none;
+    }
+  }
 }
