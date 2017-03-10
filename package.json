@@ -158,13 +158,12 @@
     "react-select": "^1.0.0-rc.2",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
-    "serverless-site": "github:serverless/site#ee4fb9d4cd9713c4273dc9281e613b23f450614f",
     "source-map-support": "^0.4.6",
     "uuid": "^2.0.3",
     "yaml-ast-parser": "0.0.30"
   },
   "devEngines": {
-    "node": "4.x || 5.x || 6.x",
-    "npm": "2.x || 3.x"
+    "node": ">=6.x",
+    "npm": ">=3.x"
   }
 }
