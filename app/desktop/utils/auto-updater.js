@@ -1,6 +1,6 @@
 /*eslint-disable */
 const app = require('electron').app
-const autoUpdater = require('electron').autoUpdater
+const autoUpdater = require('electron-updater').autoUpdater
 const ChildProcess = require('child_process')
 const Menu = require('electron').Menu
 // const { ipcMain } = require('electron')
@@ -10,7 +10,7 @@ let state = 'checking'
 
 exports.initialize = function () {
   if (process.mas) return
-  const FEED_URL = 'https://aye5i2n4ej.execute-api.us-west-2.amazonaws.com/dev/update?version=0.2.0'
+  // const FEED_URL = 'https://aye5i2n4ej.execute-api.us-west-2.amazonaws.com/dev/update?version=0.2.0'
   const appVersion = app.getVersion()
   console.log('current app version', appVersion)
   autoUpdater.on('checking-for-update', () => {
@@ -26,8 +26,12 @@ exports.initialize = function () {
   })
 
   autoUpdater.on('update-downloaded', () => {
-    state = 'installed'
+    state = 'downloaded'
     exports.updateMenu()
+  })
+
+  autoUpdater.on('update-downloaded', () => {
+    autoUpdater.quitAndInstall();
   })
 
   autoUpdater.on('update-not-available', () => {
@@ -71,49 +75,49 @@ exports.updateMenu = function () {
   })
 }
 
-exports.createShortcut = function (callback) {
-  spawnUpdate([
-    '--createShortcut',
-    path.basename(process.execPath),
-    '--shortcut-locations',
-    'StartMenu'
-  ], callback)
-}
-
-exports.removeShortcut = function (callback) {
-  spawnUpdate([
-    '--removeShortcut',
-    path.basename(process.execPath)
-  ], callback)
-}
-
-function spawnUpdate(args, callback) {
-  const updateExe = path.resolve(path.dirname(process.execPath), '..', 'Update.exe')
-  let stdout = ''
-  let spawned = null
-
-  try {
-    spawned = ChildProcess.spawn(updateExe, args)
-  } catch (error) {
-    if (error && error.stdout == null) error.stdout = stdout
-    process.nextTick(() => { callback(error) })
-    return
-  }
-
-  let error = null
-
-  spawned.stdout.on('data', (data) => { stdout += data })
-
-  spawned.on('error', (processError) => {
-    if (!error) error = processError
-  })
-
-  spawned.on('close', (code, signal) => {
-    if (!error && code !== 0) {
-      error = new Error(`Command failed: ${code} ${signal}`)
-    }
-    if (error && error.code == null) error.code = code
-    if (error && error.stdout == null) error.stdout = stdout
-    callback(error)
-  })
-}
+// exports.createShortcut = function (callback) {
+//   spawnUpdate([
+//     '--createShortcut',
+//     path.basename(process.execPath),
+//     '--shortcut-locations',
+//     'StartMenu'
+//   ], callback)
+// }
+//
+// exports.removeShortcut = function (callback) {
+//   spawnUpdate([
+//     '--removeShortcut',
+//     path.basename(process.execPath)
+//   ], callback)
+// }
+//
+// function spawnUpdate(args, callback) {
+//   const updateExe = path.resolve(path.dirname(process.execPath), '..', 'Update.exe')
+//   let stdout = ''
+//   let spawned = null
+//
+//   try {
+//     spawned = ChildProcess.spawn(updateExe, args)
+//   } catch (error) {
+//     if (error && error.stdout == null) error.stdout = stdout
+//     process.nextTick(() => { callback(error) })
+//     return
+//   }
+//
+//   let error = null
+//
+//   spawned.stdout.on('data', (data) => { stdout += data })
+//
+//   spawned.on('error', (processError) => {
+//     if (!error) error = processError
+//   })
+//
+//   spawned.on('close', (code, signal) => {
+//     if (!error && code !== 0) {
+//       error = new Error(`Command failed: ${code} ${signal}`)
+//     }
+//     if (error && error.code == null) error.code = code
+//     if (error && error.stdout == null) error.stdout = stdout
+//     callback(error)
+//   })
+// }

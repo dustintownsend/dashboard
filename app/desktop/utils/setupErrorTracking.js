@@ -26,7 +26,7 @@ module.exports = () => {
     // eslint-disable-next-line global-require
     const Raven = require('raven-js')
     // eslint-disable-next-line global-require
-    const appVersion = require('../../app/utils/electron/getAppVersion')
+    const appVersion = require('../../utils/electron/getAppVersion')
     // eslint-disable-next-line no-console
     console.log(`%cAPP VERSION: ${appVersion}`, 'color: blue')
 

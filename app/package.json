@@ -1,0 +1,18 @@
+{
+  "name": "serverless-dashboard",
+  "productName": "Serverless",
+  "version": "0.0.6",
+  "description": "Serverless Desktop app",
+  "main": "./desktop/main.js",
+  "author": {
+    "name": "David Wells",
+    "email": "david@serverless.com",
+    "url": "https://github.com/davidwells"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "font-awesome": "^4.6.3",
+    "serverless": "1.1.0",
+    "source-map-support": "^0.4.3"
+  }
+}

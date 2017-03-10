@@ -3,7 +3,7 @@ import { remote } from 'electron'
 
 let currentVersion // eslint-disable-line
 if (process.env.NODE_ENV === 'development') {
-  const pkg = require('../../../package.json') // eslint-disable-line
+  const pkg = require('../../package.json') // eslint-disable-line
   // get version messed up. Need to read from package.json
   currentVersion = pkg.version
 } else {

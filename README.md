@@ -49,18 +49,17 @@ Run `npm run dev` (starts webpack + hot-reloading) and `npm start` (starts elect
 ## File structure:
 
 - `./app` react/redux app for UI
-- `./desktop/main.development.js` is the electron main process file
+- `./app/desktop/main.development.js` is the electron main process file
 - `./static` Static assets like images/fonts/svgs
+- `./resources` Icons needed for packaging
 
-## Externals
+## Module Structure
 
-If you use any 3rd party libraries which can't or won't be built with webpack, you must list them in your `webpack.config.base.js`：
+Using a [two package.json structure](https://github.com/electron-userland/electron-builder/wiki/Two-package.json-Structure).
 
-```javascript
-externals: [
-  // put your node 3rd party libraries which can't be built with webpack here (mysql, mongodb, and so on..)
-]
-```
+1. If the module is native to a platform or otherwise should be included with the published package (i.e. bcrypt, openbci), it should be listed under `dependencies` in `./app/package.json`.
+2. If a module is `import`ed by another module, include it in `dependencies` in `./package.json`.   See [this ESLint rule](https://github.com/benmosher/eslint-plugin-import/blob/master/docs/rules/no-extraneous-dependencies.md).
+3. Otherwise, modules used for building, testing and debugging should be included in `devDependencies` in `./package.json`.
 
 ## CSS Modules
 

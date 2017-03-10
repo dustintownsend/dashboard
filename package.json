@@ -13,15 +13,17 @@
     "build": "npm run build-main && npm run build-renderer",
     "start-prod": "cross-env NODE_ENV=production electron ./",
     "dev": "cross-env NODE_ENV=development node -r babel-register server.js",
-    "start": "cross-env HOT=1 NODE_ENV=development electron -r babel-register -r babel-polyfill ./desktop/main.development",
-    "package": "cross-env NODE_ENV=production node -r babel-register -r babel-polyfill scripts/package.js",
-    "package-all": "npm run package -- --all",
-    "postinstall": "node node_modules/fbjs-scripts/node/check-dev-engines.js package.json",
+    "start": "cross-env HOT=1 NODE_ENV=development electron -r babel-register -r babel-polyfill ./app/desktop/main.development",
+    "postinstall": "concurrently \"install-app-deps\" \"node node_modules/fbjs-scripts/node/check-dev-engines.js package.json\"",
     "_devMode": "concurrently --kill-others \"npm run dev\" \"npm start\"",
     "hot-server": "echo \"depreciated command! Instead use: npm run dev\"",
     "start-hot": "echo \"depreciated command! Instead use: npm start\"",
     "cleanup": "mop -v",
-    "open": "cd release/darwin-x64/Serverless-darwin-x64/ && open ."
+    "open": "cd release/darwin-x64/Serverless-darwin-x64/ && open .",
+    "package": "npm run build && build --publish never",
+    "package-win": "npm run build && build --win --x64",
+    "package-linux": "npm run build && build --linux",
+    "package-all": "npm run package -- --all"
   },
   "bin": {
     "electron": "./node_modules/.bin/electron"
@@ -31,9 +33,47 @@
   "license": "MIT",
   "homepage": "https://github.com/serverless/dashboard#readme",
   "config": {
-   "ghooks": {
-     "pre-push": "npm run lint"
-   }
+    "ghooks": {
+      "pre-push": "npm run lint"
+    }
+  },
+  "build": {
+    "appId": "com.serverless.Dashboard",
+    "directories": {
+      "buildResources": "resources",
+      "output": "release"
+    },
+    "files": [
+      "dist/",
+      "node_modules/",
+      "desktop/index.html",
+      "desktop/main.js",
+      "package.json"
+    ],
+    "dmg": {
+      "contents": [
+        {
+          "x": 410,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 150,
+          "type": "file"
+        }
+      ]
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": [
+        "deb",
+        "AppImage"
+      ]
+    }
   },
   "devDependencies": {
     "asar": "^0.12.2",
@@ -57,9 +97,9 @@
     "css-loader": "^0.25.0",
     "del": "^2.2.2",
     "devtron": "^1.3.0",
+    "electron": "^1.6.2",
+    "electron-builder": "^15.2.0",
     "electron-devtools-installer": "^2.0.1",
-    "electron-packager": "^7.7.0",
-    "electron-rebuild": "^1.2.1",
     "enzyme": "^2.4.1",
     "eslint": "^3.7.1",
     "eslint-config-airbnb": "^12.0.0",
@@ -92,7 +132,8 @@
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.2",
     "webpack-merge": "^0.14.1",
-    "webpack-validator": "^2.2.7"
+    "webpack-validator": "^2.2.7",
+    "font-awesome": "^4.6.3"
   },
   "dependencies": {
     "aws-sdk": "^2.6.13",
@@ -100,10 +141,9 @@
     "classnames": "^2.2.5",
     "codemirror": "^5.21.0",
     "css-modules-require-hook": "^4.0.3",
-    "electron": "^1.3.4",
     "electron-debug": "^1.0.1",
+    "electron-updater": "^1.8.2",
     "fix-path": "^2.0.0",
-    "font-awesome": "^4.6.3",
     "fs-extra": "^1.0.0",
     "js-yaml": "^3.6.1",
     "lodash": "^4.16.4",
@@ -118,7 +158,6 @@
     "react-select": "^1.0.0-rc.2",
     "redux": "^3.5.2",
     "redux-thunk": "^2.1.0",
-    "serverless": "1.1.0",
     "serverless-site": "github:serverless/site#ee4fb9d4cd9713c4273dc9281e613b23f450614f",
     "source-map-support": "^0.4.6",
     "uuid": "^2.0.3",

@@ -8,7 +8,7 @@ import configureStore from './store/configureStore'
 import loadServicesFromStorage from './utils/loadServicesFromStorage'
 import newHandleUser, { setUUID } from './utils/serverless/newUser'
 import { getAWSCredentials } from './utils/aws'
-import setupErrorTracking from '../desktop/utils/setupErrorTracking'
+import setupErrorTracking from './desktop/utils/setupErrorTracking'
 import './app.global.css'
 
 // temporary clear storage for old users

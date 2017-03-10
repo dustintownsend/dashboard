@@ -13,11 +13,11 @@ Todo: figure out why imports in ./desktop/main aren't resolving
 export default validate(merge(baseConfig, {
   devtool: 'source-map',
 
-  entry: ['babel-polyfill', './desktop/main.development'],
+  entry: ['babel-polyfill', './app/desktop/main.development'],
 
   output: {
     path: __dirname,
-    filename: './desktop/main.js'
+    filename: './app/desktop/main.js'
   },
 
   plugins: [
@@ -47,11 +47,5 @@ export default validate(merge(baseConfig, {
   node: {
     __dirname: false,
     __filename: false
-  },
-  // anything we want to ship in app modules
-  externals: [
-    'font-awesome',
-    'source-map-support',
-    'serverless',
-  ]
+  }
 }))

@@ -1,6 +1,7 @@
 import path from 'path'
 // eslint-disable-next-line import/no-extraneous-dependencies
 import validate from 'webpack-validator'
+import { dependencies as externals } from './app/package.json'
 
 export default validate({
   module: {
@@ -27,7 +28,7 @@ export default validate({
     noParse: [/serverless.*\.test/]
   },
   output: {
-    path: path.join(__dirname, 'dist'),
+    path: path.join(__dirname, 'app', 'dist'),
     filename: 'bundle.js',
     libraryTarget: 'commonjs2'
   },
@@ -38,8 +39,5 @@ export default validate({
   plugins: [
 
   ],
-  externals: [
-    // put your node 3rd party libraries which can't be built with webpack here
-    // (mysql, mongodb, and so on..)
-  ]
+  externals: Object.keys(externals || {})
 })
